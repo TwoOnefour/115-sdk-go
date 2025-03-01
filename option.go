@@ -1,20 +1,8 @@
-package _115
+package sdk
 
 import "resty.dev/v3"
 
 type Option func(*Client)
-
-func WithJsonMarshalFunc(f func(v interface{}) ([]byte, error)) Option {
-	return func(w *Client) {
-		w.SetJsonMarshalFunc(f)
-	}
-}
-
-func WithJsonUnmarshalFunc(f func(data []byte, v interface{}) error) Option {
-	return func(w *Client) {
-		w.SetJsonUnmarshalFunc(f)
-	}
-}
 
 func WithRestyClient(rc *resty.Client) Option {
 	return func(c *Client) {
@@ -51,5 +39,3 @@ func WithRefreshToken(token string) Option {
 		w.SetRefreshToken(token)
 	}
 }
-
-type RestyOption func(request *resty.Request)

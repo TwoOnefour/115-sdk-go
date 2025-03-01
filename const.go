@@ -1,4 +1,4 @@
-package _115
+package sdk
 
 const (
 	ApiBaseURL = "https://proapi.115.com"

@@ -1,16 +1,14 @@
-package _115
+package sdk
 
 import (
-	"encoding/json"
+	"context"
 	"net/http"
 
 	"resty.dev/v3"
 )
 
 type Client struct {
-	client            *resty.Client
-	jsonMarshalFunc   func(v interface{}) ([]byte, error)
-	jsonUnmarshalFunc func(data []byte, v interface{}) error
+	client *resty.Client
 
 	accessToken    string
 	refreshToken   string
@@ -19,9 +17,7 @@ type Client struct {
 
 func New(opts ...Option) *Client {
 	c := &Client{
-		client:            resty.New(),
-		jsonMarshalFunc:   json.Marshal,
-		jsonUnmarshalFunc: json.Unmarshal,
+		client: resty.New(),
 	}
 
 	for _, opt := range opts {
@@ -60,14 +56,6 @@ func (w *Client) SetProxy(proxy string) *Client {
 	return w
 }
 
-func (w *Client) SetJsonMarshalFunc(f func(v interface{}) ([]byte, error)) {
-	w.jsonMarshalFunc = f
-}
-
-func (w *Client) SetJsonUnmarshalFunc(f func(data []byte, v interface{}) error) {
-	w.jsonUnmarshalFunc = f
-}
-
 func (w *Client) SetAccessToken(token string) *Client {
 	w.accessToken = token
 	return w
@@ -78,6 +66,6 @@ func (w *Client) SetRefreshToken(token string) *Client {
 	return w
 }
 
-func (w *Client) NewRequest() *resty.Request {
-	return w.client.R()
+func (w *Client) NewRequest(ctx context.Context) *resty.Request {
+	return w.client.R().SetContext(ctx)
 }
