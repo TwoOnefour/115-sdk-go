@@ -1,3 +1,4 @@
+// docs: https://www.yuque.com/115yun/open/shtpzfhewv5nag11
 package sdk
 
 import (
@@ -23,7 +24,7 @@ func calCodeChanllenge(codeVerifier string) string {
 
 func (c *Client) AuthDeviceCode(ctx context.Context, clientID string, codeVerifier string) (*AuthDeviceCodeResp, error) {
 	var resp AuthDeviceCodeResp
-	_, err := c.authRequest(ctx, ApiAuthDeviceCode, http.MethodPost, &resp, ReqWithForm(Form{
+	_, err := c.passportRequest(ctx, ApiAuthDeviceCode, http.MethodPost, &resp, ReqWithForm(Form{
 		"client_id":             clientID,
 		"code_challenge":        calCodeChanllenge(codeVerifier),
 		"code_challenge_method": "sha256",
@@ -42,7 +43,7 @@ type QrCodeStatusResp struct {
 
 func (c *Client) QrCodeStatus(ctx context.Context, uid, time, sign string) (*QrCodeStatusResp, error) {
 	var resp QrCodeStatusResp
-	_, err := c.authRequest(ctx, ApiQrCodeStatus, http.MethodGet, &resp, ReqWithQuery(Form{
+	_, err := c.passportRequest(ctx, ApiQrCodeStatus, http.MethodGet, &resp, ReqWithQuery(Form{
 		"uid":  uid,
 		"time": time,
 		"sign": sign,
@@ -61,7 +62,7 @@ type CodeToTokenResp struct {
 
 func (c *Client) CodeToToken(ctx context.Context, uid, codeVerifier string) (*CodeToTokenResp, error) {
 	var resp CodeToTokenResp
-	_, err := c.authRequest(ctx, ApiCodeToToken, http.MethodPost, &resp, ReqWithForm(Form{
+	_, err := c.passportRequest(ctx, ApiCodeToToken, http.MethodPost, &resp, ReqWithForm(Form{
 		"uid":           uid,
 		"code_verifier": codeVerifier,
 	}))
@@ -78,7 +79,7 @@ type RefreshTokenResp CodeToTokenResp
 
 func (c *Client) RefreshToken(ctx context.Context) (*RefreshTokenResp, error) {
 	var resp RefreshTokenResp
-	_, err := c.authRequest(ctx, ApiRefreshToken, http.MethodPost, &resp, ReqWithForm(Form{
+	_, err := c.passportRequest(ctx, ApiRefreshToken, http.MethodPost, &resp, ReqWithForm(Form{
 		"refresh_token": c.refreshToken,
 	}))
 	if err != nil {

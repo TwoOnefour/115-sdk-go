@@ -11,9 +11,9 @@ type AuthResp[T any] struct {
 	Error   string `json:"error"`
 	Errno   int    `json:"errno"`
 }
-type FsResp[T any] struct {
+type Resp[T any] struct {
 	State   bool   `json:"state"`
-	Code    string `json:"code"`
+	Code    int    `json:"code"`
 	Message string `json:"message"`
 	Data    T      `json:"data"`
 }

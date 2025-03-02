@@ -66,6 +66,11 @@ func (w *Client) SetRefreshToken(token string) *Client {
 	return w
 }
 
+func (w *Client) SetOnRefreshToken(fn func(string, string)) *Client {
+	w.onRefreshToken = fn
+	return w
+}
+
 func (w *Client) NewRequest(ctx context.Context) *resty.Request {
 	return w.client.R().SetContext(ctx)
 }
