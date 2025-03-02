@@ -4,7 +4,7 @@ import "resty.dev/v3"
 
 type RestyOption func(request *resty.Request)
 
-func ReqWithJson(json Json) RestyOption {
+func ReqWithJson(json any) RestyOption {
 	return func(request *resty.Request) {
 		request.
 			SetHeader("Content-Type", "application/json").
