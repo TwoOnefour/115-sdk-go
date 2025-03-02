@@ -10,7 +10,6 @@ import (
 
 func (c *Client) Request(ctx context.Context, url string, method string, opts ...RestyOption) (*resty.Response, error) {
 	req := c.NewRequest(ctx)
-	req.SetResponseBodyUnlimitedReads(true)
 	for _, opt := range opts {
 		opt(req)
 	}
@@ -40,7 +39,7 @@ func (c *Client) authRequest(ctx context.Context, url, method string, respData a
 	response, err := c.Request(ctx, url, method, append(opts, ReqWithResp(&resp), func(request *resty.Request) {
 		request.SetAuthToken(c.accessToken)
 	})...)
-	fmt.Printf("%s->%s\n resp: %s\n", method, url, response.String())
+	// fmt.Printf("%s->%s\n resp: %s\n", method, url, response.String())
 	if err != nil {
 		return nil, err
 	}
@@ -72,5 +71,7 @@ func (c *Client) AuthRequest(ctx context.Context, url, method string, respData a
 }
 
 func (c *Client) AuthRequestRaw(ctx context.Context, url, method string, respData any, opts ...RestyOption) (*resty.Response, error) {
-	return c.authRequest(ctx, url, method, respData, false, false, opts...)
+	return c.authRequest(ctx, url, method, respData, false, false, append(opts, func(request *resty.Request) {
+		request.SetResponseBodyUnlimitedReads(true)
+	})...)
 }
