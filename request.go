@@ -2,6 +2,7 @@ package sdk
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"resty.dev/v3"
@@ -34,7 +35,7 @@ func (c *Client) passportRequest(ctx context.Context, url, method string, respDa
 }
 
 func (c *Client) authRequest(ctx context.Context, url, method string, respData any, retry bool, opts ...RestyOption) (*resty.Response, error) {
-	var resp Resp[any]
+	var resp Resp[json.RawMessage]
 	response, err := c.Request(ctx, url, method, append(opts, ReqWithResp(&resp), func(request *resty.Request) {
 		request.SetAuthToken(c.accessToken)
 	})...)
@@ -52,7 +53,7 @@ func (c *Client) authRequest(ctx context.Context, url, method string, respData a
 		return response, &Error{Code: resp.Code, Message: resp.Message}
 	}
 	if respData != nil {
-		err = copyData(resp.Data, respData)
+		err = json.Unmarshal(resp.Data, respData)
 		if err != nil {
 			return response, err
 		}
