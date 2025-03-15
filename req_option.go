@@ -30,3 +30,9 @@ func ReqWithQuery(query Form) RestyOption {
 		request.SetQueryParams(query)
 	}
 }
+
+func ReqWithUA(ua string) RestyOption {
+	return func(request *resty.Request) {
+		request.SetHeader("User-Agent", ua)
+	}
+}

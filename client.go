@@ -66,7 +66,7 @@ func (w *Client) SetRefreshToken(token string) *Client {
 	return w
 }
 
-func (w *Client) SetOnRefreshToken(fn func(string, string)) *Client {
+func (w *Client) SetOnRefreshToken(fn func(accessToken string, refreshToken string)) *Client {
 	w.onRefreshToken = fn
 	return w
 }
