@@ -15,7 +15,7 @@ func ReqWithJson(json any) RestyOption {
 func ReqWithForm(form Form) RestyOption {
 	return func(request *resty.Request) {
 		request.
-			SetFormData(form)
+			SetFormData(removeEmptyForm(form))
 	}
 }
 
@@ -27,7 +27,7 @@ func ReqWithResp(v any) RestyOption {
 
 func ReqWithQuery(query Form) RestyOption {
 	return func(request *resty.Request) {
-		request.SetQueryParams(query)
+		request.SetQueryParams(removeEmptyForm(query))
 	}
 }
 
@@ -35,4 +35,15 @@ func ReqWithUA(ua string) RestyOption {
 	return func(request *resty.Request) {
 		request.SetHeader("User-Agent", ua)
 	}
+}
+
+func removeEmptyForm(form Form) Form {
+	f := Form{}
+	for k, v := range form {
+		if v == "" {
+			continue
+		}
+		f[k] = v
+	}
+	return f
 }

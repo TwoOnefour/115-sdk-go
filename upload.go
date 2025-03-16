@@ -46,10 +46,10 @@ type UploadInitResp struct {
 	Target    string `json:"target"`
 	Bucket    string `json:"bucket"`
 	Object    string `json:"object"`
-	Callback  struct {
+	Callback  StructOrArray[struct {
 		Callback    string `json:"callback"`
 		CallbackVar string `json:"callback_var"`
-	} `json:"callback"`
+	}] `json:"callback"`
 }
 
 // UploadInit: https://www.yuque.com/115yun/open/ul4mrauo5i2uza0q
@@ -85,10 +85,10 @@ type UploadResumeResp struct {
 	Version  string `json:"version"`
 	Bucket   string `json:"bucket"`
 	Object   string `json:"object"`
-	Callback []struct {
+	Callback StructOrArray[struct {
 		Callback    string `json:"callback"`
 		CallbackVar string `json:"callback_var"`
-	} `json:"callback"`
+	}] `json:"callback"`
 }
 
 // UploadResume: https://www.yuque.com/115yun/open/tzvi9sbcg59msddz
