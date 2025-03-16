@@ -2,7 +2,9 @@ package sdk
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"strconv"
 )
 
 type UploadGetTokenResp struct {
@@ -30,7 +32,7 @@ type UploadInitReq struct {
 	FileID    string `json:"fileid"` // 文件Sha1
 	PreID     string `json:"preid"`  // 文件前128k的sha1
 	PickCode  string `json:"pick_code"`
-	TopUpload int    `json:"topupload"`
+	TopUpload string `json:"topupload"`
 	SignKey   string `json:"sign_key"`
 	SignVal   string `json:"sign_val"`
 }
@@ -44,7 +46,7 @@ type UploadInitResp struct {
 	Target    string `json:"target"`
 	Bucket    string `json:"bucket"`
 	Object    string `json:"object"`
-	Callback  []struct {
+	Callback  struct {
 		Callback    string `json:"callback"`
 		CallbackVar string `json:"callback_var"`
 	} `json:"callback"`
@@ -53,7 +55,17 @@ type UploadInitResp struct {
 // UploadInit: https://www.yuque.com/115yun/open/ul4mrauo5i2uza0q
 func (c *Client) UploadInit(ctx context.Context, req *UploadInitReq) (*UploadInitResp, error) {
 	var resp UploadInitResp
-	_, err := c.AuthRequest(ctx, ApiFsUploadInit, http.MethodPost, &resp, ReqWithJson(req))
+	_, err := c.AuthRequest(ctx, ApiFsUploadInit, http.MethodPost, &resp, ReqWithForm(Form{
+		"file_name": req.FileName,
+		"file_size": strconv.FormatInt(req.FileSize, 10),
+		"target":    fmt.Sprintf("U_1_%s", req.Target),
+		"fileid":    req.FileID,
+		"preid":     req.PreID,
+		"pick_code": req.PickCode,
+		"topupload": req.TopUpload,
+		"sign_key":  req.SignKey,
+		"sign_val":  req.SignVal,
+	}))
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +94,12 @@ type UploadResumeResp struct {
 // UploadResume: https://www.yuque.com/115yun/open/tzvi9sbcg59msddz
 func (c *Client) UploadResume(ctx context.Context, req *UploadResumeReq) (*UploadResumeResp, error) {
 	var resp UploadResumeResp
-	_, err := c.AuthRequest(ctx, ApiFsUploadResume, http.MethodPost, &resp, ReqWithJson(req))
+	_, err := c.AuthRequest(ctx, ApiFsUploadResume, http.MethodPost, &resp, ReqWithForm(Form{
+		"file_size": strconv.FormatInt(req.FileSize, 10),
+		"target":    fmt.Sprintf("U_1_%s", req.Target),
+		"fileid":    req.FileID,
+		"pick_code": req.PickCode,
+	}))
 	if err != nil {
 		return nil, err
 	}

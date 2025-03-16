@@ -15,7 +15,7 @@ type MkdirResp struct {
 
 func (c *Client) Mkdir(ctx context.Context, pid, filename string) (*MkdirResp, error) {
 	var resp MkdirResp
-	_, err := c.AuthRequest(ctx, ApiFsMkdir, http.MethodPost, &resp, ReqWithJson(Json{
+	_, err := c.AuthRequest(ctx, ApiFsMkdir, http.MethodPost, &resp, ReqWithForm(Form{
 		"pid":       pid,
 		"file_name": filename,
 	}))
@@ -223,7 +223,11 @@ type CopyReq struct {
 // Copy: https://www.yuque.com/115yun/open/lvas49ar94n47bbk
 func (c *Client) Copy(ctx context.Context, req *CopyReq) (any, error) {
 	var resp any
-	_, err := c.AuthRequest(ctx, ApiFsCopy, http.MethodPost, &resp, ReqWithJson(req))
+	_, err := c.AuthRequest(ctx, ApiFsCopy, http.MethodPost, &resp, ReqWithForm(Form{
+		"pid":      req.PID,
+		"file_id":  req.FileID,
+		"no_dupli": req.NoDupli,
+	}))
 	return resp, err
 }
 
@@ -235,7 +239,10 @@ type MoveReq struct {
 // Move: https://www.yuque.com/115yun/open/vc6fhi2mrkenmav2
 func (c *Client) Move(ctx context.Context, req *MoveReq) (any, error) {
 	var resp any
-	_, err := c.AuthRequest(ctx, ApiFsMove, http.MethodPost, &resp, ReqWithJson(req))
+	_, err := c.AuthRequest(ctx, ApiFsMove, http.MethodPost, &resp, ReqWithForm(Form{
+		"file_ids": req.FileIDs,
+		"to_cid":   req.ToCid,
+	}))
 	return resp, err
 }
 
@@ -275,7 +282,11 @@ type UpdateFileResp struct {
 // UpdateFile: https://www.yuque.com/115yun/open/gyrpw5a0zc4sengm
 func (c *Client) UpdateFile(ctx context.Context, req *UpdateFileReq) (*UpdateFileResp, error) {
 	var resp UpdateFileResp
-	_, err := c.AuthRequest(ctx, ApiFsUpdate, http.MethodPost, &resp, ReqWithJson(req))
+	_, err := c.AuthRequest(ctx, ApiFsUpdate, http.MethodPost, &resp, ReqWithForm(Form{
+		"file_id":   req.FileID,
+		"file_name": req.FileNma,
+		"star":      req.Star,
+	}))
 	if err != nil {
 		return nil, err
 	}
@@ -290,7 +301,10 @@ type DelFileReq struct {
 // DelFile: https://www.yuque.com/115yun/open/kt04fu8vcchd2fnb
 func (c *Client) DelFile(ctx context.Context, req *DelFileReq) ([]string, error) {
 	var resp []string
-	_, err := c.AuthRequest(ctx, ApiFsDelete, http.MethodPost, &resp, ReqWithJson(req))
+	_, err := c.AuthRequest(ctx, ApiFsDelete, http.MethodPost, &resp, ReqWithForm(Form{
+		"file_ids":  req.FileIDs,
+		"parent_id": req.ParentID,
+	}))
 	return resp, err
 }
 
@@ -363,7 +377,7 @@ type RbRevertResp map[string]struct {
 // RbRevert: https://www.yuque.com/115yun/open/gq293z80a3kmxbaq
 func (c *Client) RbRevert(ctx context.Context, tid string) (RbRevertResp, error) {
 	var resp RbRevertResp
-	_, err := c.AuthRequest(ctx, ApiFsRbRevert, http.MethodPost, &resp, ReqWithJson(Json{
+	_, err := c.AuthRequest(ctx, ApiFsRbRevert, http.MethodPost, &resp, ReqWithForm(Form{
 		"tid": tid,
 	}))
 	return resp, err
@@ -372,7 +386,7 @@ func (c *Client) RbRevert(ctx context.Context, tid string) (RbRevertResp, error)
 // RbDel: https://www.yuque.com/115yun/open/gwtof85nmboulrce
 func (c *Client) RbDelete(ctx context.Context, tid string) ([]string, error) {
 	var resp []string
-	_, err := c.AuthRequest(ctx, ApiFsRbDelete, http.MethodPost, &resp, ReqWithJson(Json{
+	_, err := c.AuthRequest(ctx, ApiFsRbDelete, http.MethodPost, &resp, ReqWithForm(Form{
 		"tid": tid,
 	}))
 	return resp, err
