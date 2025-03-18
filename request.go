@@ -37,14 +37,16 @@ func (c *Client) passportRequest(ctx context.Context, url, method string, respDa
 func (c *Client) authRequest(ctx context.Context, url, method string, respData any, extractData, retry bool, opts ...RestyOption) (*resty.Response, error) {
 	var resp Resp[json.RawMessage]
 	response, err := c.Request(ctx, url, method, append(opts, ReqWithResp(&resp), func(request *resty.Request) {
-		request.SetAuthToken(c.accessToken)
+		if c.accessToken != "" {
+			request.SetAuthToken(c.accessToken)
+		}
 	})...)
 	// fmt.Printf("%s->%s\n resp: %s\n", method, url, response.String())
 	if err != nil {
 		return nil, err
 	}
 	if !resp.State {
-		if !retry && resp.Code == 99 {
+		if !retry && (resp.Code == 99 || resp.Code == 40140123) {
 			_, err := c.RefreshToken(ctx)
 			if err != nil {
 				return response, err
