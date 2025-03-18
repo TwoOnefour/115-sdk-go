@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/xhofe/115-sdk-go/json_types"
 )
 
 type UploadGetTokenResp struct {
@@ -46,7 +48,7 @@ type UploadInitResp struct {
 	Target    string `json:"target"`
 	Bucket    string `json:"bucket"`
 	Object    string `json:"object"`
-	Callback  StructOrArray[struct {
+	Callback  json_types.StructOrArray[struct {
 		Callback    string `json:"callback"`
 		CallbackVar string `json:"callback_var"`
 	}] `json:"callback"`
@@ -85,7 +87,7 @@ type UploadResumeResp struct {
 	Version  string `json:"version"`
 	Bucket   string `json:"bucket"`
 	Object   string `json:"object"`
-	Callback StructOrArray[struct {
+	Callback json_types.StructOrArray[struct {
 		Callback    string `json:"callback"`
 		CallbackVar string `json:"callback_var"`
 	}] `json:"callback"`

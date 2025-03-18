@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+
+	"github.com/xhofe/115-sdk-go/json_types"
 )
 
 type MkdirResp struct {
@@ -73,29 +75,29 @@ type GetFilesResp_File struct {
 
 type GetFilesResp struct {
 	Resp[[]GetFilesResp_File]
-	Count          int64      `json:"count"`     // 当前目录文件数量
-	SysCount       int64      `json:"sys_count"` // 系统文件夹数量
-	Offset         int64      `json:"offset"`    // 偏移量
-	Limit          Int64OrStr `json:"limit"`     // 分页量
-	Aid            int        `json:"aid"`       // 文件的状态，aid 的别名。1 正常，7 删除(回收站)，120 彻底删除
-	Cid            int64      `json:"cid"`       // 父目录ID
-	IsAsc          int        `json:"is_asc"`    // 1: asc, 0: desc
-	MinSize        int64      `json:"min_size"`
-	MaxSize        int64      `json:"max_size"`
-	SysDir         string     `json:"sys_dir"`
-	HideData       string     `json:"hide_data"`        //是否返回文件数据
-	RecordOpenTime string     `json:"record_open_time"` //是否记录文件夹的打开时间
-	Star           int        `json:"star"`             //是否星标；1：星标；0：未星标
-	Type           int        `json:"type"`             //一级筛选大分类，1：文档，2：图片，3：音乐，4：视频，5：压缩包，6：应用
-	Suffix         string     `json:"suffix"`           //一级筛选选其他时填写的后缀名
+	Count          int64                 `json:"count"`     // 当前目录文件数量
+	SysCount       int64                 `json:"sys_count"` // 系统文件夹数量
+	Offset         int64                 `json:"offset"`    // 偏移量
+	Limit          json_types.Int64OrStr `json:"limit"`     // 分页量
+	Aid            int                   `json:"aid"`       // 文件的状态，aid 的别名。1 正常，7 删除(回收站)，120 彻底删除
+	Cid            int64                 `json:"cid"`       // 父目录ID
+	IsAsc          int                   `json:"is_asc"`    // 1: asc, 0: desc
+	MinSize        int64                 `json:"min_size"`
+	MaxSize        int64                 `json:"max_size"`
+	SysDir         string                `json:"sys_dir"`
+	HideData       string                `json:"hide_data"`        //是否返回文件数据
+	RecordOpenTime string                `json:"record_open_time"` //是否记录文件夹的打开时间
+	Star           int                   `json:"star"`             //是否星标；1：星标；0：未星标
+	Type           int                   `json:"type"`             //一级筛选大分类，1：文档，2：图片，3：音乐，4：视频，5：压缩包，6：应用
+	Suffix         string                `json:"suffix"`           //一级筛选选其他时填写的后缀名
 	Path           []struct {
-		Name string     `json:"name"` //父目录名
-		Aid  Int64OrStr `json:"aid"`
-		Cid  Int64OrStr `json:"cid"`
-		Pid  Int64OrStr `json:"pid"`
-		Isp  Int64OrStr `json:"isp"`
-		PCid string     `json:"p_cid"`
-		Fv   string     `json:"fv"`
+		Name string                `json:"name"` //父目录名
+		Aid  json_types.Int64OrStr `json:"aid"`
+		Cid  json_types.Int64OrStr `json:"cid"`
+		Pid  json_types.Int64OrStr `json:"pid"`
+		Isp  json_types.Int64OrStr `json:"isp"`
+		PCid string                `json:"p_cid"`
+		Fv   string                `json:"fv"`
 	} `json:"path"` //父目录树
 	Cur    int64  `json:"cur"`
 	StdDir int    `json:"stdir"`

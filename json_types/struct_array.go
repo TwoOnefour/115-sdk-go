@@ -1,4 +1,4 @@
-package sdk
+package json_types
 
 import (
 	"encoding/json"
