@@ -3,7 +3,7 @@ package sdk
 import "fmt"
 
 type Error struct {
-	Code    int    `json:"code"`
+	Code    int64  `json:"code"`
 	Message string `json:"message"`
 }
 

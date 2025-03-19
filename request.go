@@ -46,7 +46,7 @@ func (c *Client) authRequest(ctx context.Context, url, method string, respData a
 		return nil, err
 	}
 	if !resp.State {
-		if !retry && (resp.Code == 99 || resp.Code == 40140123) {
+		if !retry && (resp.Code == 99 || Is401Started(resp.Code)) {
 			_, err := c.RefreshToken(ctx)
 			if err != nil {
 				return response, err

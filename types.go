@@ -13,7 +13,7 @@ type AuthResp[T any] struct {
 }
 type Resp[T any] struct {
 	State   bool   `json:"state"`
-	Code    int    `json:"code"`
+	Code    int64  `json:"code"`
 	Message string `json:"message"`
 	Data    T      `json:"data"`
 }
