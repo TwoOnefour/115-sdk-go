@@ -51,7 +51,7 @@ func (c *Client) authRequest(ctx context.Context, url, method string, respData a
 			if err != nil {
 				return response, err
 			}
-			return c.authRequest(ctx, url, method, respData, true, extractData, opts...)
+			return c.authRequest(ctx, url, method, respData, extractData, true, opts...)
 		}
 		return response, &Error{Code: resp.Code, Message: resp.Message}
 	}
