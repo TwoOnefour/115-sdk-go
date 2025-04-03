@@ -42,6 +42,16 @@ type GetFilesReq struct {
 	ShowDir     bool // 是否显示目录；0 或 1，默认为0
 }
 
+type GetFilesResp_File_FL struct {
+	Id         string `json:"id"`          // 文件标签ID
+	Name       string `json:"name"`        // 文件标签名称
+	Sort       string `json:"sort"`        // 文件标签排序
+	Color      string `json:"color"`       // 文件标签颜色
+	IsDefault  int    `json:"is_default"`  // 文件标签类型；0：最近使用；1：非最近使用；2：为默认标签
+	UpdateTime int64  `json:"update_time"` // 文件标签更新时间
+	CreateTime int64  `json:"create_time"` // 文件标签创建时间
+}
+
 type GetFilesResp_File struct {
 	Fid       string                  `json:"fid"`  // 文件ID
 	Aid       string                  `json:"aid"`  // 文件的状态，aid 的别名。1 正常，7 删除(回收站)，120 彻底删除
@@ -58,7 +68,7 @@ type GetFilesResp_File struct {
 	Cm        int64                   `json:"cm"`
 	FDesc     string                  `json:"fdesc"`     // 文件备注
 	IsPl      int64                   `json:"ispl"`      // 是否统计文件夹下视频时长开关
-	Fl        []string                `json:"fl"`        // 文件标签
+	Fl        []GetFilesResp_File_FL  `json:"fl"`        // 文件标签
 	Sha1      string                  `json:"sha1"`      // 文件sha1
 	FS        int64                   `json:"fs"`        // 文件大小
 	Fta       string                  `json:"fta"`       // 文件状态 0/2 未上传完成，1 已上传完成
