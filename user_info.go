@@ -2,14 +2,13 @@ package sdk
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
-
-	"github.com/xhofe/115-sdk-go/json_types"
 )
 
 type UserInfoResp_Size struct {
-	Size       json_types.Int64OrFloat `json:"size"`
-	SizeFormat string                  `json:"size_format"`
+	Size       json.Number `json:"size"`
+	SizeFormat string      `json:"size_format"`
 }
 
 type UserInfoResp struct {
