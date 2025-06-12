@@ -1,4 +1,4 @@
-module github.com/twoonefour/115-sdk-go
+module github.com/twoonefour/115-sdk-go v0.1.5
 
 go 1.23.4
 
